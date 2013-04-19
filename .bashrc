@@ -23,20 +23,59 @@ export LS_COLORS='no=0:fi=0:di=32:ln=36:or=1;40:mi=1;40:pi=31:so=33:bd=44;37:cd=
 # don't add common commands to the history:
 export HISTIGNORE="bg:cd:date:df:du:exit:fg:ll:ls:pwd:rehash:source:top:w"
 
+# For colourful man pages (CLUG-Wiki style)
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+function git_branch {
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || return;
+    echo "("${ref#refs/heads/}") ";
+}
+
+function git_since_last_commit {
+    now=`date +%s`;
+    last_commit=$(git log --pretty=format:%at -1 2> /dev/null) || return;
+    seconds_since_last_commit=$((now-last_commit));
+    minutes_since_last_commit=$((seconds_since_last_commit/60));
+    hours_since_last_commit=$((minutes_since_last_commit/60));
+    minutes_since_last_commit=$((minutes_since_last_commit%60));
+    echo "${hours_since_last_commit}h${minutes_since_last_commit}m ";
+}
+
+function git_diff() {
+    git diff --no-ext-diff -w "$@" | vim -R -
+}
+
+# enable programmable completion features
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+  . /etc/bash_completion
+fi
+
 # for different OS
 operatesystem=$(uname)
 
 case $operatesystem in
   "Linux")
     alias ls='ls -aF --color'
+    alias ll='ls -al --color | less -r'
     alias grep="/bin/grep --color"
+    alias g="/bin/grep --color"
+    alias fixlocale="sudo locale-gen --lang zh_TW.UTF-8;sudo locale-gen;"
     ;;
   "Darwin")
     alias ls="ls -aFG"
+    alias ll='ls -alG --color | less -r'
     alias grep="/usr/bin/grep --color"
+    alias py="/usr/local/Cellar/python3/3.2.1/bin/python3"
     ;;
   "FreeBSD")
     alias ls="ls -aFGg"
+    alias ll="ls -aGg | less -r"
     alias grep="/usr/bin/grep --color"
     ;;
 esac
@@ -61,9 +100,10 @@ esac
 
 force_color_prompt=yes
 if [ ! ${WINDOW} ]; then
-   PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[36m\]\h \[\e[0m\][\[\e[32m\]\w\[\e[0m\]] (\[\e[36m\]\A\[\e[0m\])\[\e[0m\] '
+    PS1="\[\e[32m\]\u\[\e[0m\]@\[\e[36m\]\h \[\e[0m\][\[\e[32m\]\w\[\e[0m\]] (\[\e[36m\]\A\[\e[0m\])\[\e[0m\] \[\033[1;36m\]\$(git_branch)\[\033[0;33m\]\$(git_since_last_commit)\[\033[0m\] "
 else
-   PS1="\[\e[32m\]\u\[\e[0m\]@\[\e[36m\]\h \[\e[0m\][\[\e[32m\]\w\[\e[0m\]] [\[\e[36m\]\A\[\e[0m\]/\[\e[36m\]W${WINDOW}\[\e[0m\]]\[\e[0m\] "
+    #PS1="\[\e[32m\]\u\[\e[0m\]@\[\e[36m\]\h \[\e[0m\][\[\e[32m\]\w\[\e[0m\]] (\[\e[36m\]\A\[\e[0m\]/\[\e[36m\]W${WINDOW}\[\e[0m\]]\[\e[0m\] "
+    PS1="\[\e[32m\]\u\[\e[0m\]@\[\e[36m\]\h \[\e[0m\][\[\e[32m\]\w\[\e[0m\]] \[\033[1;36m\]\$(git_branch)\[\033[0;33m\]\$(git_since_last_commit)\[\033[0m\] "
 fi
 
 if [ "$TERM" == "vt100" ] || [ "$TERM" == "ansi" ]; then
