@@ -1,5 +1,3 @@
-" far's vimrc
-" Huang-Lin (Far) Tseng <farrrr@gmail.com>
 
 " General Settings
 " For pathogen.vim: auto load all plugins in .vim/bundle
