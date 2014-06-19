@@ -41,6 +41,7 @@ Bundle 'vim-scripts/nginx.vim'
 Bundle 'guns/xterm-color-table.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'xsbeats/vim-blade'
 " " origin repos on vim scripts
 " Bundle "showcolor"
 
