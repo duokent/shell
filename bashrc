@@ -8,6 +8,11 @@ alias top="htop"
 alias railhome="cd ~/Dropbox/RailsProjects/"
 alias cd..="cd .."
 alias cd...="cd ../.."
+
+alias sportsv_db='mysql -h db-production.c5aup8hz8omb.ap-northeast-1.rds.amazonaws.com -P 3306 -u sportsvuser -p'
+alias web1='ssh deploy@web1'
+alias web2='ssh deploy@web2'
+
 # VARIABLES
 export PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:$HOME/.rvm/bin:"{PATH}"
 # my default editor
@@ -109,3 +114,7 @@ fi
 if [ "$TERM" == "vt100" ] || [ "$TERM" == "ansi" ]; then
  LANG=zh_TW.big5
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

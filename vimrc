@@ -42,7 +42,16 @@ Bundle 'guns/xterm-color-table.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'xsbeats/vim-blade'
-" " origin repos on vim scripts
+"markdown
+Bundle 'godlygeek/tabular'
+Bundle 'plasticboy/vim-markdown'
+"laravel
+Bundle 'tpope/vim-dispatch'
+Bundle 'tpope/vim-projectionist'
+Bundle 'noahfrederick/vim-composer'
+Bundle 'noahfrederick/vim-laravel'
+
+" origin repos on vim scripts
 " Bundle "showcolor"
 
 
